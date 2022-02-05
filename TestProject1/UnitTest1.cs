@@ -1,3 +1,4 @@
+using AdressBookResetSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using RestSharp;
@@ -24,6 +25,21 @@ namespace TestProject1
             //Act
             RestSharp.RestResponse response = client.ExecuteAsync(request).Result;
             return response;
+        }
+        // UC2 //
+        [TestMethod]
+        public void ReadEntriesFromJsonServer()
+        {
+            RestResponse response = GetContactList();
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            List<Contact> employeeList = JsonConvert.DeserializeObject<List<Contact>>(response.Content);
+            Assert.AreEqual(2, employeeList.Count);
+            foreach (Contact c in employeeList)
+            {
+                Console.WriteLine($"Id: {c.Id}\tFullName: {c.FirstName} {c.LastName}" +
+                    $"\tPhoneNo: {c.PhoneNumber}\tAddress: {c.Address}\tCity: {c.City}" +
+                    $"\tState: {c.State}\tZip: {c.Zip}\tEmail: {c.Email}");
+            }
         }
     }
 }
