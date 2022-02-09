@@ -70,5 +70,18 @@ namespace TestProject1
             Assert.AreEqual("124568", contact.Zip);
             Console.WriteLine(response.Content);
         }
+        //uc4//
+        [TestMethod]
+        public void OnCallingDeleteAPI_ReturnSuccessStatus()
+        {
+            //Arrange
+            RestRequest request = new RestRequest("/Contacts/5", Method.Delete);
+            //Act
+            RestResponse response = client.ExecuteAsync(request).Result;
+            //Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Console.WriteLine(response.Content);
+        }
     }
 }
+   
