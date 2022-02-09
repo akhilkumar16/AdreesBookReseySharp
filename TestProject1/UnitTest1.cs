@@ -41,5 +41,34 @@ namespace TestProject1
                     $"\tState: {c.State}\tZip: {c.Zip}\tEmail: {c.Email}");
             }
         }
+        //uc3//
+        [TestMethod]
+        public void OnCallingPutAPI_ReturnContactObjects()
+        {
+            //Arrange
+            RestRequest request = new RestRequest("/Contacts/4", Method.Put);
+            request.RequestFormat = DataFormat.Json;
+
+            request.AddBody(new Contact
+            {
+                FirstName = "virat",
+                LastName = "kholi",
+                PhoneNumber = "12345689",
+                Address = "hnk",
+                City = "banglore",
+                State = "kt",
+                Zip = "124568",
+                Email = "kholi@gmail.com"
+            });
+            //Act
+            RestResponse response = client.ExecuteAsync(request).Result;
+            //Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Contact contact = JsonConvert.DeserializeObject<Contact>(response.Content);
+            Assert.AreEqual("virat", contact.FirstName);
+            Assert.AreEqual("kholi", contact.LastName);
+            Assert.AreEqual("124568", contact.Zip);
+            Console.WriteLine(response.Content);
+        }
     }
 }
